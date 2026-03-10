@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hồ sơ - Nguyễn Trần Thủy Tiên</title>
+<style>
+body{ margin:0; font-family:'Segoe UI', sans-serif; min-height:100vh; position: relative; overflow-x: hidden; }
+body::before{
+  content:""; position:fixed; inset:0;
+  background: url("lop12a2.jpg") center/cover no-repeat;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); 
+  background-color: rgba(0,0,0,.4); 
+  z-index:-1;
+}
+
+.profile{
+  max-width:1100px; margin:40px auto;
+  background:rgba(248, 250, 252, 0.9); 
+  border-radius:24px; padding:24px;
+  display:grid; grid-template-columns:260px 1fr; gap:24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.left{ background:#fff; border-radius:20px; padding:20px; text-align: center; }
+
+.avatar img{
+  width: 180px;           
+  height: 220px;          
+  object-fit: cover;       
+  border-radius: 20px;
+  border: 4px solid #fff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  transition: transform .3s ease;
+}
+.avatar img:hover{ transform: translateY(-5px); }
+
+.block{ margin-top:16px; text-align: left;}
+.block h3{ background:#fde68a; display:inline-block; padding:4px 12px; border-radius:999px; font-size:13px; margin-bottom: 8px;}
+.block p{ margin:4px 0; font-size: 14px; color: #4b5563;}
+
+.right h1{ margin:0; color: #111827; }
+.tag{ display:inline-block; background:#93c5fd; padding:3px 10px; border-radius:999px; font-size:12px; margin:8px 0; color: #1e40af;}
+.card{ background:#fff; border-radius:18px; padding:18px; margin-top:16px; box-shadow: 0 2px 5px rgba(0,0,0,0.03);}
+.card h3{ color:#2563eb; margin: 0 0 10px 0; font-size: 16px;}
+.card p { margin: 4px 0; font-size: 14px; color: #4b5563; }
+
+.album-section { margin-top: 20px; }
+
+.btn-toggle-album {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white; border: none;
+  padding: 12px 24px; border-radius: 12px;
+  cursor: pointer; font-weight: 600; font-size: 14px;
+  transition: all 0.3s ease;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+.btn-toggle-album:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4);
+}
+.btn-toggle-album.active { background: #4b5563; box-shadow: none; }
+
+#photo-gallery {
+  max-height: 0; 
+  overflow: hidden; 
+  transition: max-height 0.5s ease-out, opacity 0.4s ease; 
+  opacity: 0;
+  margin-top: 0;
+}
+
+#photo-gallery.open {
+  max-height: 2000px; 
+  opacity: 1;
+  margin-top: 16px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 12px; 
+}
+
+.gallery-item {
+  width: 100%;
+  aspect-ratio: 1 / 1; 
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  z-index: 2; 
+}
+
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover; 
+}
+
+.lightbox {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.9); 
+  display: flex; justify-content: center; align-items: center;
+  z-index: 9999; 
+  opacity: 0; visibility: hidden; 
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  padding: 20px;
+  cursor: zoom-out; 
+}
+
+.lightbox.active { opacity: 1; visibility: visible; }
+.lightbox-content {
+  max-width: 90%; 
+  max-height: 85vh;
+  
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(255,255,255,0.1);
+  
+  transform: scale(0.8);
+  transition: transform 0.4s ease;
+}
+.lightbox.active .lightbox-content { transform: scale(1); }
+
+.lightbox-close {
+  position: absolute; top: 20px; right: 20px;
+  color: #fff; font-size: 40px; font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s;
+  line-height: 1;
+}
+.lightbox-close:hover { color: #f87171; }
+
+
+@media(max-width:768px){
+  .profile{ grid-template-columns:1fr; margin: 10px; padding: 15px;}
+  .avatar img { width: 140px; height: 180px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="profile">
+  <div class="left">
+    <div class="avatar">
+      <img src="38NTTT.jpg" alt="Nguyễn Trần Thủy Tiên">
+      <h2 style="margin: 10px 0 0 0; font-size: 20px;">Nguyễn Trần Thủy Tiên</h2>
+      <p style="margin: 0; color: #6b7280; font-size: 14px;">Lớp 12A2</p>
+    </div>
+
+    <div class="block">
+      <h3>💭 Định hướng tương lai</h3>
+      <p>  Truyền thông</p>
+    </div>
+
+  </div>
+
+  <div class="right">
+    <h1>Xin chào! 👋</h1>
+    <span class="tag">Trầm tính</span>
+    <span class="tag">Ít nói</span>
+    <p style="color: #4b5563; line-height: 1.6;">Hấp dẫn và iu người đẹp</p>
+    
+ <div class="card">
+        <h3>📍 Thông tin</h3>
+      <p>Họ và tên: Nguyễn Trần Thủy Tiên</p>
+      <P>Ngày sinh: 26/07/2008</P>
+      <p>Địa chỉ: Tổ 3, Ấp 3, Xã Tân An, Tỉnh Đồng Nai</p>
+      <P>Dân tộc: Kinh</P> 
+      <p>SĐT: 0335282741</p>
+      <p>Sở thích: Ăn thịt người đẹp </p>
+    </div>
+   
+
+    <div class="album-section">
+        <button class="btn-toggle-album" onclick="toggleGallery()" id="toggleBtn">
+            <span>Xem album kỷ niệm</span> <strong id="arrow">▼</strong>
+        </button>
+
+        <div id="photo-gallery">
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="37DQBT2.jpg" alt="Kỷ niệm 1" onclick="openLightbox(this.src)"></div>
+                <div class="gallery-item"><img src="NQD2.jpg" alt="Kỷ niệm 2" onclick="openLightbox(this.src)"></div>
+                <div class="gallery-item"><img src="NQD3.jpg" alt="Kỷ niệm 3" onclick="openLightbox(this.src)"></div>
+                <div class="gallery-item"><img src="NQD4.jpg" alt="Kỷ niệm 4" onclick="openLightbox(this.src)"></div>
+                
+    </div>
+    </div>
+</div>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img class="lightbox-content" id="lightbox-img" src="">
+</div>
+
+
+<script>
+    
+    function toggleGallery() {
+        const gallery = document.getElementById('photo-gallery');
+        const btn = document.getElementById('toggleBtn');
+        const btnText = btn.querySelector('span');
+        const arrow = document.getElementById('arrow');
+        
+        gallery.classList.toggle('open');
+        btn.classList.toggle('active');
+
+        if (gallery.classList.contains('open')) {
+            btnText.innerText = '📂 Đóng album ảnh';
+            arrow.innerText = '▲';
+        } else {
+            btnText.innerText = '🖼️ Xem album kỷ niệm';
+            arrow.innerText = '▼';
+        }
+    }
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(imageSrc) {
+        lightboxImg.src = imageSrc; 
+        lightbox.classList.add('active'); 
+        document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active'); 
+        document.body.style.overflow = 'auto'; 
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === "Escape" && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
+</script>
+
+</body>
+</html>

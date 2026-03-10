@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Kỷ niệm 12A2</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">A2K23 <span>So high</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="thanh-vien.html">Thành viên</a></li>
+            <li><a href="luu-tru.html" class="active">Lưu trữ</a></li>
+            <li><a href="su-kien.html">Sự kiện</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="gallery-header">
+            <h2 class="section-title">Kho Lưu Trữ Kỷ Niệm</h2>
+            <div class="filter-controls">
+                <button class="filter-btn active" onclick="filterGallery('all')">Tất cả</button>
+                <button class="filter-btn" onclick="filterGallery('photo')">Hình ảnh</button>
+                <button class="filter-btn" onclick="filterGallery('video')">Video</button>
+            </div>
+        </header>
+        
+        <div class="masonry-gallery" id="galleryContainer">
+            </div>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <div class="lightbox-content-wrapper">
+            <img id="lightbox-img" src="" alt="Fullsize">
+            <div id="lightbox-caption"></div>
+        </div>
+        <button class="nav-btn prev" onclick="changeImage(-1)">&#10094;</button>
+        <button class="nav-btn next" onclick="changeImage(1)">&#10095;</button>
+    </div>
+
+    <script>
+        const folderPath = "Anh/luutru/pic/";
+        const foldervideo = "Anh/luutru/video/";
+        const totalPhotos = 116; // 
+        const totalVideos = 17;
+        let currentIdx = 0;
+        let activeItems = [];
+
+        function initGallery() {
+            const container = document.getElementById('galleryContainer');
+            
+            // Thêm ảnh
+            for (let i = 1; i <= totalPhotos; i++) {
+                const div = document.createElement('div');
+                div.className = 'gallery-item photo show';
+                div.innerHTML = `<img src="${folderPath}1 (${i}).jpg" alt="Ảnh ${i}" onclick="openLightbox(this)">`;
+                container.appendChild(div);
+            }
+
+            // Thêm video
+            for (let j = 1; j <= totalVideos; j++) {
+                const div = document.createElement('div');
+                div.className = 'gallery-item video show';
+                div.innerHTML = `
+                    <div class="video-wrapper">
+                        <video src="${foldervideo}1 (${j}).mp4" controls></video>
+                        <div class="video-tag"><i class="fas fa-play"></i> Video</div>
+                    </div>`;
+                container.appendChild(div);
+            }
+            updateActiveItems();
+        }
+
+        function filterGallery(type) {
+            const items = document.querySelectorAll('.gallery-item');
+            const btns = document.querySelectorAll('.filter-btn');
+            
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (type === 'all' || item.classList.contains(type)) {
+                    item.classList.add('show');
+                } else {
+                    item.classList.remove('show');
+                }
+            });
+            setTimeout(updateActiveItems, 300); // Đợi hiệu ứng ẩn kết thúc
+        }
+
+        function updateActiveItems() {
+            activeItems = Array.from(document.querySelectorAll('.gallery-item.photo.show img'));
+        }
+
+        function openLightbox(imgElement) {
+            const lightbox = document.getElementById('lightbox');
+            const lImg = document.getElementById('lightbox-img');
+            currentIdx = activeItems.indexOf(imgElement);
+            
+            lImg.src = imgElement.src;
+            document.getElementById('lightbox-caption').innerText = imgElement.alt;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function changeImage(step) {
+            currentIdx += step;
+            if (currentIdx >= activeItems.length) currentIdx = 0;
+            if (currentIdx < 0) currentIdx = activeItems.length - 1;
+            document.getElementById('lightbox-img').src = activeItems[currentIdx].src;
+        }
+
+        // Đóng bằng phím Esc và chuyển ảnh bằng phím mũi tên
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowRight") changeImage(1);
+            if (e.key === "ArrowLeft") changeImage(-1);
+        });
+
+        initGallery();
+    </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hành Trình 12A2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">12A2<span>Family</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="thanh-vien.html">Thành viên</a></li>
+            <li><a href="luu-tru.html">Lưu trữ</a></li>
+            <li><a href="su-kien.html" class="active">Sự kiện</a></li>
+        </ul>
+    </nav>
+
+    <header class="event-hero">
+        <h1>Dòng Thời Gian 12A2</h1>
+        <p>Nơi lưu giữ những thước phim quý giá từ lớp 10 đến nay</p>
+    </header>
+
+    <div class="container">
+        <div class="event-filter" data-aos="fade-up">
+            <button class="filter-btn active" onclick="filterEvents('all')">Tất cả</button>
+            <button class="filter-btn" onclick="filterEvents('10')">Lớp 10</button>
+            <button class="filter-btn" onclick="filterEvents('11')">Lớp 11</button>
+            <button class="filter-btn" onclick="filterEvents('12')">Lớp 12</button>
+        </div>
+
+        <div class="events-grid">
+            </div>
+    </div>
+
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modalTitle">Tên Sự Kiện</h2>
+            <div id="modalGallery" class="modal-gallery">
+                </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        const eventsData = [
+            { id: 1, grade: '10', title: 'Nấu ăn', time: 'Lớp 10', icon: 'fa-utensils', img: 'https://picsum.photos/400/300?random=1' },
+            { id: 2, grade: '11', title: 'Nấu ăn', time: 'Lớp 11', icon: 'fa-utensils', img: 'https://picsum.photos/400/300?random=2' },
+            { id: 3, grade: '11', title: 'Múa Tết', time: 'Lớp 11', icon: 'fa-fan', img: 'https://picsum.photos/400/300?random=3' },
+            { id: 4, grade: '11', title: 'Ngày Nhà giáo VN 20/11', time: 'Lớp 11', icon: 'fa-chalkboard-teacher', img: 'https://picsum.photos/400/300?random=4' },
+            { id: 5, grade: '11', title: 'Diễn Kịch', time: 'Lớp 11', icon: 'fa-theater-masks', img: 'https://picsum.photos/400/300?random=5' },
+            { id: 6, grade: '11', title: 'Quốc tế Phụ nữ 8/3', time: 'Lớp 11', icon: 'fa-venus', img: 'https://picsum.photos/400/300?random=6' },
+            { id: 7, grade: '11', title: 'Phụ nữ VN 20/10', time: 'Lớp 11', icon: 'fa-heart', img: 'https://picsum.photos/400/300?random=7' },
+            { id: 8, grade: '11', title: 'Vinh danh HSG', time: 'Lớp 11', icon: 'fa-trophy', img: 'https://picsum.photos/400/300?random=8' },
+            { id: 9, grade: '12', title: 'Phụ nữ VN 20/10', time: 'Lớp 12', icon: 'fa-heart', img: 'https://picsum.photos/400/300?random=9' },
+            { id: 10, grade: '12', title: 'Quốc tế Đàn ông 19/11', time: 'Lớp 12', icon: 'fa-mars', img: 'https://picsum.photos/400/300?random=10' },
+            { id: 11, grade: '12', title: 'Múa Tết', time: 'Lớp 12', icon: 'fa-dragon', img: 'https://picsum.photos/400/300?random=11' },
+            { id: 12, grade: '12', title: 'Quốc tế Phụ nữ 8/3', time: 'Lớp 12', icon: 'fa-flower-tulip', img: 'https://picsum.photos/400/300?random=12' },
+            { id: 13, grade: '12', title: 'Vinh danh HSG', time: 'Lớp 12', icon: 'fa-crown', img: 'https://picsum.photos/400/300?random=13' }
+        ];
+
+        function renderEvents(filter = 'all') {
+            const grid = document.querySelector('.events-grid');
+            grid.innerHTML = '';
+            const filtered = filter === 'all' ? eventsData : eventsData.filter(e => e.grade === filter);
+            
+            filtered.forEach(e => {
+                grid.innerHTML += `
+                    <div class="event-card" data-aos="fade-up" onclick="openEvent(${e.id})">
+                        <div class="card-img" style="background-image: url('${e.img}')">
+                            <div class="card-tag">Lớp ${e.grade}</div>
+                        </div>
+                        <div class="card-body">
+                            <i class="fas ${e.icon}"></i>
+                            <h3>${e.title}</h3>
+                            <span>Xem Album <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterEvents(grade) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderEvents(grade);
+        }
+
+        function openEvent(id) {
+            const event = eventsData.find(e => e.id === id);
+            document.getElementById('modalTitle').innerText = event.title + " - " + event.time;
+            const modalGallery = document.getElementById('modalGallery');
+            
+            // Giả lập thêm nhiều ảnh/video khi nhấn vào
+            modalGallery.innerHTML = '';
+            for(let i=1; i<=8; i++) {
+                modalGallery.innerHTML += `<img src="https://picsum.photos/400/300?random=${id}${i}" onclick="window.open(this.src)">`;
+            }
+            modalGallery.innerHTML += `<video controls><source src="dummy-video.mp4" type="video/mp4"></video>`;
+            
+            document.getElementById('eventModal').style.display = "block";
+        }
+
+        document.querySelector('.close-modal').onclick = () => {
+            document.getElementById('eventModal').style.display = "none";
+        }
+
+        window.onclick = (e) => {
+            if (e.target == document.getElementById('eventModal')) document.getElementById('eventModal').style.display = "none";
+        }
+
+        renderEvents();
+        AOS.init();
+    </script>
+</body>
+</html>
